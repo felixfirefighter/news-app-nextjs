@@ -1,0 +1,6 @@
+export const applicationConfig = {
+  maxNewsItem: 500_000, // Maximum number of news items to keep in memory - stress test value
+  newsWebSocketUrl:
+    process.env.NEXT_PUBLIC_NEWS_WEBSOCKET_URL || 'ws://localhost:8080',
+  newsWebSocketHandshake: 'hello'
+}
