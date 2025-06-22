@@ -1,17 +1,9 @@
+import { newsAdapter } from '@/features/news/store/adapters/news-adapter'
 import { NewsItem } from '@/features/news/types/news-item'
 import { NewsState } from '@/features/news/types/news-state'
 import { applicationConfig } from '@/features/system/config'
-import { RootState } from '@/features/system/store'
 import { WebSocketStatus } from '@/features/system/types/websocket'
-import {
-  createEntityAdapter,
-  createSlice,
-  PayloadAction
-} from '@reduxjs/toolkit'
-
-const newsAdapter = createEntityAdapter<NewsItem>({
-  sortComparer: (a, b) => b.timestamp - a.timestamp
-})
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: NewsState = {
   assets: [],
@@ -46,7 +38,7 @@ const newsSlice = createSlice({
         }
       })
 
-      newsAdapter.upsertMany(state, processedItems)
+      newsAdapter.addMany(state, processedItems)
 
       state.assets = Array.from(assetsSet).sort()
       state.sources = Array.from(sourcesSet).sort()
@@ -81,9 +73,5 @@ export const {
   setSelectedKeywords,
   setSelectedSources
 } = newsSlice.actions
-
-export const { selectAll: selectAllNews } = newsAdapter.getSelectors(
-  (state: RootState) => state.news
-)
 
 export default newsSlice.reducer

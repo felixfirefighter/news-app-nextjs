@@ -2,10 +2,10 @@
 
 import { NewsFilterControls } from '@/features/news/components/news-filter-controls'
 import { NewsList } from '@/features/news/components/news-list'
+import { selectAllNews } from '@/features/news/store/adapters/news-adapter'
 import { useGetNewsQuery } from '@/features/news/store/api/news-api'
 import { selectFilteredNews } from '@/features/news/store/selectors/news-selector'
 import {
-  selectAllNews,
   setSelectedAssets,
   setSelectedKeywords,
   setSelectedSources

@@ -123,6 +123,7 @@ features/
 │   ├── containers/         # Container - Layer between states / business logic and dumb UI components
 │   ├── services/           # Services - Business logic
 │   ├── store/              # Redux state management
+|   |   ├── adapters        # Redux adapters - Normalize data for performance and management
 |   |   ├── api/            # RTK Query - making API call
 |   |   ├── selectors/      # Selectors for accessing states
 |   |   └── states/         # Redux states/slice
@@ -160,7 +161,26 @@ Imagine we are looking from the POV of the view layer, all we see is RTK. We hav
 
 Since RTK Query provides the capability to handle asynchronous flow, we have `api` under the `store`.
 
-`selectors` are used in situation when you want to have the state being transformed in another structure. For example, there's a news list in states, but you want a filtered news list. You can use a `selector` and apply the filter and return filtered news list instead of storing the filtered news in the state.
+`selectors` are basically computed data. `selectors` are efficient, they are not recomputed unless one of its arguments changes.
+
+For example, there's a news list in states, but you want a filtered news list. You can use a `selector` and apply the filter and return filtered news list instead of storing the filtered news in the state.
+
+`adapaters` are for advanced use case when we want to manage large data set and improve the performance. The most important here is `createEntityAdapter`
+
+Imagine when we receive a list of items, instead of just storing them as array. `createEntityAdapter` creates this
+
+```
+{
+  ids: ['1', '2,', '3'],
+  entities: {
+    '1': {},
+    '2': {},
+    '3': {}
+  }
+}
+```
+
+The function helps us to normalize the data, and it provides faster lookup as well O(1)
 
 #### Why do we need service layer?
 
@@ -181,19 +201,6 @@ A container is like a manager that talks to external parties (i.e. state), prepa
 ### Use antd, MUI, or other UI library
 
 ShadCN does not have a lot of components. Having the ownership of UI components sound good on paper, but it's extra code for us to maintain. A battle-tested UI library can give us the velocity needed to deliver our product. ShadCN also "pollutes" our repo by placing the code at root.
-
-### Index filteredNews
-
-Currently the `filteredNews` is constructured via `selector`. `selector` runs synchronously. If we have a large `allNews`, the selector's performance would suffer. One way to solve this is to index the news and store the index in the states. For example, we can store a Map, key being the assets, and an array of news' UUIDs. For example,
-
-```
-interface NewsState {
-    assetsRecord: Record<number, string[]> // i.e. 'BTC': ['1', '2', '3']
-    newsMap: Record<string, NewsItem> // '1': {headline: 'BTC vs ETH', ...}
-}
-```
-
-We can quickly lookup the news if we index to provide faster lookup at the cost of more space/memory usage.
 
 ### Reconnect button for Websocket
 
