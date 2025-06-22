@@ -6,6 +6,10 @@ Financial traders need real-time access to market news to make informed decision
 
 This project solves these challenges by building a high-performance, real-time news feed application specifically designed for traders. It leverages modern web technologies to handle large volumes of incoming news data without compromising UI responsiveness, while providing essential filtering and prioritization features that traders need.
 
+## Preview
+
+![Screenshot 2025-06-23 at 12 15 34 AM](https://github.com/user-attachments/assets/5773b63a-8c62-4788-848d-57bf962ab226)
+
 ## Getting Started
 
 This NextJS project is bootstrapped with ShadCN. Learn more about the setup [here](https://ui.shadcn.com/docs/installation/next).
