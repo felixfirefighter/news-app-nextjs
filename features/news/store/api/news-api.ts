@@ -19,9 +19,12 @@ export const newsApi = createApi({
         url,
         { dispatch, cacheDataLoaded, cacheEntryRemoved }
       ) {
+        // Buffer the data so that the UI does not tank
         const bufferService = new BufferService<NewsItem>({
           onFlush: (items) => dispatch(newsReceived(items))
         })
+
+        // Connect to WebSocket and buffer the data to BufferService
         const wsService = new WebSocketService<NewsItem>(url, {
           initialHandshake: applicationConfig.newsWebSocketHandshake,
           onMessage: (data) => bufferService.addItem(data),
