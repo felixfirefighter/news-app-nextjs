@@ -82,6 +82,8 @@ Ensure you have the following installed:
 
 ## Architecture
 
+![image](https://github.com/user-attachments/assets/2267e2e3-0747-49c7-9bbe-e5c77cbe49c6)
+
 ### Design Philosophy
 
 This project uses **opinionated frameworks** to ensure consistency and maintainability:
