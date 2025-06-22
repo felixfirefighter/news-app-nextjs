@@ -1,5 +1,6 @@
 import { getStatusConfig } from '@/features/news/utils/status'
 import { WebSocketStatus } from '@/features/system/types/websocket'
+import clsx from 'clsx'
 
 interface Props {
   status: WebSocketStatus
@@ -12,19 +13,20 @@ export const NewsConnectionStatus: React.FC<Props> = (props) => {
     <div className="flex items-center gap-2">
       <div className="relative">
         <div
-          className={`w-2 h-2 rounded-full ${config.color} ${
-            config.pulse ? 'animate-pulse' : ''
-          }`}
+          className={clsx(`w-2 h-2 rounded-full`, config.color, {
+            'animate-pulse': config.pulse
+          })}
         />
         {config.pulse && (
           <div
-            className={`absolute inset-0 w-2 h-2 rounded-full ${config.color} animate-ping opacity-75`}
+            className={clsx(
+              `absolute inset-0 w-2 h-2 rounded-full animate-ping opacity-75`,
+              config.color
+            )}
           />
         )}
       </div>
-      <span className="text-sm text-gray-600 dark:text-gray-300">
-        {config.text}
-      </span>
+      <span className="text-sm text-gray-600 ">{config.text}</span>
     </div>
   )
 }

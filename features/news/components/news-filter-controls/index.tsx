@@ -1,16 +1,23 @@
 import { MultiSelect } from '@/components/multi-select'
-import { selectFilterOptions } from '@/features/news/store/selectors/news-selector'
-import {
-  setSelectedAssets,
-  setSelectedKeywords,
-  setSelectedSources
-} from '@/features/news/store/states/news-state'
-import { useAppDispatch, useAppSelector } from '@/features/system/store/hooks'
+interface Props {
+  assets: string[]
+  sources: string[]
+  keywords: string[]
 
-export const NewsFilterControls = () => {
-  const { assets, sources, keywords } = useAppSelector(selectFilterOptions)
-  const dispatch = useAppDispatch()
+  onSelectedAssetsChanged: (values: string[]) => void
+  onSelectedSourcesChanged: (values: string[]) => void
+  onSelectedKeywordsChanged: (values: string[]) => void
+}
 
+export const NewsFilterControls: React.FC<Props> = (props) => {
+  const {
+    sources,
+    assets,
+    keywords,
+    onSelectedAssetsChanged,
+    onSelectedKeywordsChanged,
+    onSelectedSourcesChanged
+  } = props
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-4  border rounded-lg">
       <div className="space-y-2">
@@ -24,7 +31,7 @@ export const NewsFilterControls = () => {
               value: item
             }
           })}
-          onValueChange={(values) => dispatch(setSelectedSources(values))}
+          onValueChange={onSelectedSourcesChanged}
           defaultValue={[]}
           placeholder="Filter by news sources"
           maxCount={2}
@@ -41,7 +48,7 @@ export const NewsFilterControls = () => {
               value: item
             }
           })}
-          onValueChange={(values) => dispatch(setSelectedAssets(values))}
+          onValueChange={onSelectedAssetsChanged}
           defaultValue={[]}
           placeholder="Filter by assets"
           maxCount={3}
@@ -60,7 +67,7 @@ export const NewsFilterControls = () => {
               value: item
             }
           })}
-          onValueChange={(values) => dispatch(setSelectedKeywords(values))}
+          onValueChange={onSelectedKeywordsChanged}
           defaultValue={[]}
           placeholder="Filter by keywords"
           maxCount={3}

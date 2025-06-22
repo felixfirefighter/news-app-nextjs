@@ -6,28 +6,6 @@ const selectSelectedAssets = (state: RootState) => state.news.selectedAssets
 const selectSelectedSources = (state: RootState) => state.news.selectedSources
 const selectSelectedKeywords = (state: RootState) => state.news.selectedKeywords
 
-// Selectors to get filter options from all news items
-export const selectFilterOptions = createSelector(
-  [selectAllNews],
-  (allNews) => {
-    const assetsSet = new Set<string>()
-    const sourcesSet = new Set<string>()
-    const keywordsSet = new Set<string>()
-
-    allNews.forEach((item) => {
-      item.assets.forEach((asset) => assetsSet.add(asset))
-      sourcesSet.add(item.source)
-      item.keywords.forEach((keyword) => keywordsSet.add(keyword))
-    })
-
-    return {
-      assets: Array.from(assetsSet).sort((a, b) => a.localeCompare(b)),
-      sources: Array.from(sourcesSet).sort((a, b) => a.localeCompare(b)),
-      keywords: Array.from(keywordsSet).sort((a, b) => a.localeCompare(b))
-    }
-  }
-)
-
 // Selector to filter news items based on selected assets, sources, and keywords
 export const selectFilteredNews = createSelector(
   [

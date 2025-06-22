@@ -1,18 +1,18 @@
 import { NewsConnectionStatus } from '@/features/news/components/news-connection-status'
 import { NewsItemContent } from '@/features/news/components/news-item-content'
-import { selectFilteredNews } from '@/features/news/store/selectors/news-selector'
-import { applicationConfig } from '@/features/system/config'
-import { useAppSelector } from '@/features/system/store/hooks'
+import { NewsItem } from '@/features/news/types/news-item'
 import { WebSocketStatus } from '@/features/system/types/websocket'
 import { Virtuoso } from 'react-virtuoso'
 
-export const NewsList: React.FC = () => {
-  const filteredNews = useAppSelector(selectFilteredNews)
-  const allNews = useAppSelector((state) => state.news.allNews)
-  const connectionStatus = useAppSelector(
-    (state) => state.news.connectionStatus
-  )
+interface Props {
+  filteredNews: NewsItem[]
+  allNews: NewsItem[]
+  connectionStatus: WebSocketStatus
+  maxNewsItem: number
+}
 
+export const NewsList: React.FC<Props> = (props) => {
+  const { filteredNews, allNews, connectionStatus, maxNewsItem } = props
   return (
     <>
       <div className="flex-1 mb-0">
@@ -49,8 +49,7 @@ export const NewsList: React.FC = () => {
       </div>
       <div className="flex justify-between text-sm text-gray-500 mt-0">
         <p className="italic">
-          Only the latest{' '}
-          {applicationConfig.maxNewsItem.toLocaleString('en-US')} news will be
+          Only the latest {maxNewsItem.toLocaleString('en-US')} news will be
           displayed.
         </p>
       </div>

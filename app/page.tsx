@@ -1,9 +1,9 @@
-import { NewsFeed } from '@/features/news/components/news-feed'
+import { NewsContainer } from '@/features/news/containers/news-container'
 
 export default function Home() {
   return (
     <>
-      <NewsFeed />
+      <NewsContainer />
     </>
   )
 }
