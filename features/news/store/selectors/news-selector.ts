@@ -1,7 +1,7 @@
+import { selectAllNews } from '@/features/news/store/states/news-state'
 import { RootState } from '@/features/system/store'
 import { createSelector } from '@reduxjs/toolkit'
 
-const selectAllNews = (state: RootState) => state.news.allNews
 const selectSelectedAssets = (state: RootState) => state.news.selectedAssets
 const selectSelectedSources = (state: RootState) => state.news.selectedSources
 const selectSelectedKeywords = (state: RootState) => state.news.selectedKeywords

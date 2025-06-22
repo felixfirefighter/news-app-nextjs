@@ -4,7 +4,12 @@ import { NewsFilterControls } from '@/features/news/components/news-filter-contr
 import { NewsList } from '@/features/news/components/news-list'
 import { useGetNewsQuery } from '@/features/news/store/api/news-api'
 import { selectFilteredNews } from '@/features/news/store/selectors/news-selector'
-import { setSelectedAssets } from '@/features/news/store/states/news-state'
+import {
+  selectAllNews,
+  setSelectedAssets,
+  setSelectedKeywords,
+  setSelectedSources
+} from '@/features/news/store/states/news-state'
 import { applicationConfig } from '@/features/system/config'
 import { useAppDispatch, useAppSelector } from '@/features/system/store/hooks'
 
@@ -15,7 +20,7 @@ export const NewsContainer = () => {
   useGetNewsQuery(newsWebSocketUrl)
 
   const filteredNews = useAppSelector(selectFilteredNews)
-  const allNews = useAppSelector((state) => state.news.allNews)
+  const allNews = useAppSelector(selectAllNews)
   const connectionStatus = useAppSelector(
     (state) => state.news.connectionStatus
   )
@@ -28,9 +33,9 @@ export const NewsContainer = () => {
   const onSelectedAssetsChanged = (values: string[]) =>
     dispatch(setSelectedAssets(values))
   const onSelectedSourcesChanged = (values: string[]) =>
-    dispatch(setSelectedAssets(values))
+    dispatch(setSelectedSources(values))
   const onSelectedKeywordsChanged = (values: string[]) =>
-    dispatch(setSelectedAssets(values))
+    dispatch(setSelectedKeywords(values))
 
   return (
     <div className="container mx-auto p-4 space-y-3 h-svh flex flex-col">

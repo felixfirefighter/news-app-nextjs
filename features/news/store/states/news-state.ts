@@ -1,8 +1,17 @@
 import { NewsItem } from '@/features/news/types/news-item'
 import { NewsState } from '@/features/news/types/news-state'
 import { applicationConfig } from '@/features/system/config'
+import { RootState } from '@/features/system/store'
 import { WebSocketStatus } from '@/features/system/types/websocket'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import {
+  createEntityAdapter,
+  createSlice,
+  PayloadAction
+} from '@reduxjs/toolkit'
+
+const newsAdapter = createEntityAdapter<NewsItem>({
+  sortComparer: (a, b) => b.timestamp - a.timestamp
+})
 
 const initialState: NewsState = {
   assets: [],
@@ -12,40 +21,42 @@ const initialState: NewsState = {
   selectedAssets: [],
   selectedSources: [],
   selectedKeywords: [],
-  allNews: [],
   connectionStatus: WebSocketStatus.CLOSED
 }
 
 const newsSlice = createSlice({
   name: 'news',
-  initialState,
+  initialState: newsAdapter.getInitialState(initialState),
   reducers: {
     newsReceived: (state, action: PayloadAction<NewsItem[]>) => {
       const assetsSet = new Set(state.assets)
       const sourcesSet = new Set(state.sources)
       const keywordsSet = new Set(state.keywords)
 
-      action.payload.forEach((item) => {
-        // Update filter options based on the new news items
-        item.assets.forEach((asset) => {
-          assetsSet.add(asset)
-        })
+      const processedItems: NewsItem[] = action.payload.map((item) => {
+        // Update filter options
+        item.assets.forEach((asset) => assetsSet.add(asset))
         sourcesSet.add(item.source)
-        item.keywords.forEach((keyword) => {
-          keywordsSet.add(keyword)
-        })
+        item.keywords.forEach((keyword) => keywordsSet.add(keyword))
 
-        // Remove duplicated assets or keywords
-        state.allNews.unshift({
+        return {
           ...item,
           assets: Array.from(new Set(item.assets)),
           keywords: Array.from(new Set(item.keywords))
-        })
+        }
       })
 
-      // Remove older news items if the total exceeds the maximum allowed
-      if (state.allNews.length > applicationConfig.maxNewsItem) {
-        state.allNews.splice(applicationConfig.maxNewsItem)
+      newsAdapter.upsertMany(state, processedItems)
+
+      state.assets = Array.from(assetsSet).sort()
+      state.sources = Array.from(sourcesSet).sort()
+      state.keywords = Array.from(keywordsSet).sort()
+
+      // Remove older news
+      const allIds = newsAdapter.getSelectors().selectIds(state)
+      if (allIds.length > applicationConfig.maxNewsItem) {
+        const idsToRemove = allIds.slice(applicationConfig.maxNewsItem)
+        newsAdapter.removeMany(state, idsToRemove)
       }
     },
     setConnectionStatus: (state, action: PayloadAction<WebSocketStatus>) => {
@@ -70,4 +81,9 @@ export const {
   setSelectedKeywords,
   setSelectedSources
 } = newsSlice.actions
+
+export const { selectAll: selectAllNews } = newsAdapter.getSelectors(
+  (state: RootState) => state.news
+)
+
 export default newsSlice.reducer

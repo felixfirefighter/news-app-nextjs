@@ -203,6 +203,10 @@ Currently there is no way to reconnect in case of Websocket connection failure. 
 
 We can use [jest](https://jestjs.io/) for unit test and [playwright](https://playwright.dev/) for E2E testing.
 
+### Better buffer management
+
+Currently we do not throw away any news as we deem all the news are important to the users. If the websocket pushes a lot of news in short amount of time, the items in the buffer will start to pile up, and it will take a lot of time for `BufferService` to push those to the state.
+
 ## AI
 
 AI tools were used for:
