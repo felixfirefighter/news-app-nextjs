@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { NewsItem } from '@/features/news/types/news-item'
+import { formatHostname } from '@/features/news/utils/format'
 import clsx from 'clsx'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
@@ -19,7 +20,7 @@ export const NewsItemContent: React.FC<Props> = ({ newsItem }) => {
     <div
       className={clsx('flex items-center space-x-4 px-4 py-2 border-b', {
         'hover:bg-gray-50': priority !== 'high',
-        'bg-amber-300 hover:bg-amber-400': priority === 'high'
+        'bg-amber-200 hover:bg-amber-300': priority === 'high'
       })}
     >
       <div className="flex-grow">
@@ -27,12 +28,12 @@ export const NewsItemContent: React.FC<Props> = ({ newsItem }) => {
           <Link
             href={link || '#'}
             target={link && '_blank'}
-            className="md:mb-2 md:flex md:items-center"
+            className="md:mb-2 md:flex md:items-center gap-2"
           >
             <p className="mb-2 font-medium text-sm md:mb-0">{headline}</p>
-            <p className="mb-2 text-xs md:mb-0 mx-2 gap-1 flex items-center">
+            <p className="mb-2 text-xs md:mb-0 gap-1 flex items-center">
               <Badge variant={'secondary'}>{source}</Badge>
-              {link && `(${link})`}
+              {link && `(${formatHostname(link)})`}
             </p>
           </Link>
           <div className="text-xs flex items-center gap-1">

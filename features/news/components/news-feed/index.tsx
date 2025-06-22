@@ -9,7 +9,7 @@ export const NewsFeed = () => {
   useGetNewsQuery(applicationConfig.newsWebSocketUrl)
 
   return (
-    <div className="container mx-auto p-4 space-y-6 h-svh flex flex-col">
+    <div className="container mx-auto p-4 space-y-3 h-svh flex flex-col">
       <h1 className="text-3xl font-bold">News Feed</h1>
       <NewsFilterControls />
       <NewsList />
