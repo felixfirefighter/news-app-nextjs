@@ -143,7 +143,7 @@ The following is the architecture of how we structure the flow of code.
 UI Components → Containers → RTK Store → Services + External APIs
 ```
 
-#### Why feature-based structure instead of type-based structure?
+### Why feature-based structure instead of type-based structure?
 
 **TLDR: Colocation + Scalability**
 
@@ -151,7 +151,7 @@ If we zoom in and look at `_template` folder, it looks just like a tiny repo wit
 
 `system` is a unique module. You can look at it as `global`, `application`, `master` module as it is responsibility for application level features. Common utils, services, components should go into this module as well.
 
-#### RTK + RTK Query = State Management + API call = Proxy between UI and API / data
+### RTK + RTK Query = State Management + API call = Proxy between UI and API / data
 
 RTK served as state management for our application is intuitive, it also provides a layer between the UI and business logic / API layer.
 
@@ -165,7 +165,7 @@ Since RTK Query provides the capability to handle asynchronous flow, we have `ap
 
 For example, there's a news list in states, but you want a filtered news list. You can use a `selector` and apply the filter and return filtered news list instead of storing the filtered news in the state.
 
-`adapaters` are for advanced use case when we want to manage large data set and improve the performance. The most important here is `createEntityAdapter`
+`adapters` are for advanced use case when we want to manage large data set and improve the performance. The most important here is `createEntityAdapter`
 
 Imagine when we receive a list of items, instead of just storing them as array. `createEntityAdapter` creates this
 
@@ -182,7 +182,7 @@ Imagine when we receive a list of items, instead of just storing them as array. 
 
 The function helps us to normalize the data, and it provides faster lookup as well O(1)
 
-#### Why do we need service layer?
+### Why do we need service layer?
 
 The service layer is responsible for business logic. We can look at `BufferService` and `WebsocketService` to illustrate the point.
 
@@ -190,7 +190,7 @@ We could have dumped all the buffering, connecting to websocket logic in API lay
 
 As you can see from the theme of the architecture, we want to have each component / service to have their own responsibility, and we piece them together to get the outcome that we want, it's like playing LEGO!
 
-#### Containers = Layer between UI and State
+### Containers = Layer between UI and State
 
 The frontend repo always has this risk of having too many complex logics on the view layer. A container acts as the layer between UI and state, so that UI layer can do what they do best, presenting the UI.
 
