@@ -55,6 +55,7 @@ Ensure you have the following installed:
 2. **Run Development Server**
 
    ```bash
+   pnpm install # download dependencies
    pnpm dev  # Starts on localhost:3000
    ```
 
