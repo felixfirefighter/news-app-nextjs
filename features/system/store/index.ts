@@ -1,5 +1,5 @@
-import { newsApi } from '@/features/news/services/api/news-api'
-import newsReducer from '@/features/news/services/states/news-slice'
+import { newsApi } from '@/features/news/store/api/news-api'
+import newsReducer from '@/features/news/store/states/news-state'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 

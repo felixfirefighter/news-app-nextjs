@@ -1,24 +1,15 @@
 export enum WebSocketStatus {
-  DISCONNECTED = 'disconnected',
-  CONNECTING = 'connecting',
-  CONNECTED = 'connected',
-  ERROR = 'error',
-  RECONNECTING = 'reconnecting'
+  CONNECTING = 'CONNECTING',
+  OPEN = 'OPEN',
+  CLOSING = 'CLOSING',
+  CLOSED = 'CLOSED'
 }
 
-export interface WebSocketState {
-  status: WebSocketStatus
-  error?: string
-  lastConnectedAt?: number
-  reconnectAttempts: number
-}
-
-export interface WebSocketServiceConfig<T> {
-  url: string
+export interface WebSocketServiceOptions<T> {
   reconnectDelay?: number
   maxReconnectAttempts?: number
   initialHandshake?: string
 
-  onMessage: (data: T) => void
-  onStatusChange: (status: WebSocketStatus, error?: string) => void
+  onMessage?: (message: T) => void
+  onStatusChange?: (status: WebSocketStatus) => void
 }

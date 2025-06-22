@@ -1,19 +1,15 @@
 import { NewsItem } from '@/features/news/types/news-item'
-import { applicationConfig } from '@/features/system/application/config'
+import { NewsState } from '@/features/news/types/news-state'
+import { applicationConfig } from '@/features/system/config'
+import { WebSocketStatus } from '@/features/system/types/websocket'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-interface NewsState {
-  selectedAssets: string[]
-  selectedSources: string[]
-  selectedKeywords: string[]
-  allNews: NewsItem[]
-}
 
 const initialState: NewsState = {
   selectedAssets: [],
   selectedSources: [],
   selectedKeywords: [],
-  allNews: []
+  allNews: [],
+  connectionStatus: WebSocketStatus.CLOSED
 }
 
 const newsSlice = createSlice({
@@ -21,10 +17,23 @@ const newsSlice = createSlice({
   initialState,
   reducers: {
     newsReceived: (state, action: PayloadAction<NewsItem[]>) => {
-      state.allNews.unshift(...action.payload)
+      state.allNews.unshift(
+        ...action.payload.map((item) => {
+          return {
+            ...item,
+            assets: Array.from(new Set(item.assets)),
+            keywords: Array.from(new Set(item.keywords))
+          }
+        })
+      )
+
+      // Remove older news items if the total exceeds the maximum allowed
       if (state.allNews.length > applicationConfig.maxNewsItem) {
         state.allNews.splice(applicationConfig.maxNewsItem)
       }
+    },
+    setConnectionStatus: (state, action: PayloadAction<WebSocketStatus>) => {
+      state.connectionStatus = action.payload
     },
     setSelectedAssets: (state, action: PayloadAction<string[]>) => {
       state.selectedAssets = action.payload
@@ -40,6 +49,7 @@ const newsSlice = createSlice({
 
 export const {
   newsReceived,
+  setConnectionStatus,
   setSelectedAssets,
   setSelectedKeywords,
   setSelectedSources

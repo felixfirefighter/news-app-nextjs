@@ -1,13 +1,13 @@
 import { MultiSelect } from '@/components/multi-select'
-import { selectFilterOptions } from '@/features/news/services/selectors/news-selector'
+import { selectFilterOptions } from '@/features/news/store/selectors/news-selector'
 import {
   setSelectedAssets,
   setSelectedKeywords,
   setSelectedSources
-} from '@/features/news/services/states/news-slice'
+} from '@/features/news/store/states/news-state'
 import { useAppDispatch, useAppSelector } from '@/features/system/store/hooks'
 
-export const NewsFilters = () => {
+export const NewsFilterControls = () => {
   const { assets, sources, keywords } = useAppSelector(selectFilterOptions)
   const dispatch = useAppDispatch()
 

@@ -1,10 +1,10 @@
 import { NewsItemContent } from '@/features/news/components/news-item-content'
-import { selectFilteredNews } from '@/features/news/services/selectors/news-selector'
-import { applicationConfig } from '@/features/system/application/config'
+import { selectFilteredNews } from '@/features/news/store/selectors/news-selector'
+import { applicationConfig } from '@/features/system/config'
 import { useAppSelector } from '@/features/system/store/hooks'
 import { Virtuoso } from 'react-virtuoso'
 
-export const NewsList: React.FC = (props) => {
+export const NewsList: React.FC = () => {
   const filteredNews = useAppSelector(selectFilteredNews)
   const allNews = useAppSelector((state) => state.news.allNews)
 
