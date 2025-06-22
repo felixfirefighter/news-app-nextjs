@@ -1,84 +1,101 @@
 # News Feed NextJS
 
-This is a NextJS project bootstrapped with ShadCN init command below.
+## Problem & Solution
 
-```
+Financial traders need real-time access to market news to make informed decisions. Traditional news feeds often struggle with performance issues when handling high-frequency data streams, leading to UI lag and poor user experience.
+
+This project solves these challenges by building a high-performance, real-time news feed application specifically designed for traders. It leverages modern web technologies to handle large volumes of incoming news data without compromising UI responsiveness, while providing essential filtering and prioritization features that traders need.
+
+## Getting Started
+
+This NextJS project is bootstrapped with ShadCN. Learn more about the setup [here](https://ui.shadcn.com/docs/installation/next).
+
+```bash
 pnpm dlx shadcn@latest init
 ```
 
-You can learn about it [here](https://ui.shadcn.com/docs/installation/next).
-
-## For Developer
+## Developer Setup
 
 ### Prerequisite
 
-Make sure you have the following for best development experience
+Ensure you have the following installed:
 
-#### Environments
+**Required:**
 
-[NodeJS](https://nodejs.org/en/download) - Minimum of NodeJS 18
-[PNPM](https://pnpm.io/installation) - NPM but faster
-[git-cz](https://github.com/streamich/git-cz) - This allows us to write nicer Git commit messages in a structured way
+- [NodeJS](https://nodejs.org/en/download) (minimum v18)
+- [PNPM](https://pnpm.io/installation) - Fast package manager
+- [git-cz](https://github.com/streamich/git-cz) - Structured commit messages
 
-#### VSC Extensions
+**VSCode Extensions:**
 
-[ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) - Linting for the project
-[Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) - Code formatter
-[Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) - Code linting
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) - Code formatting
+- [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) - CSS utilities
+
+**Optional but Recommended:**
+
+- [Better Comments](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments) - Enhanced comment styling
+- [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens) - Git visualization
 
 ##### Good to have
 
 [Better Comments](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments) - Provide styling for comments
 [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens) - Visualize Git history directly in your IDE
 
-### Development
+### Development Workflow
 
-To run the app, by default it will run on localhost:3000
+1. **Environment Setup**
 
-```bash
-pnpm dev
-```
+   ```bash
+   # Copy template and configure environment
+   cp .env.template .env
+   # Edit .env with your configuration
+   ```
 
-To build a production package:
+2. **Run Development Server**
 
-```bash
-pnpm build
-```
+   ```bash
+   pnpm dev  # Starts on localhost:3000
+   ```
 
-Whenever you want to commit to Git, please use `git-cz` for structured commit message
+3. **Build for Production**
 
-```
-# Assuming you want to commit all the changes
-git add .
-git cz
-```
+   ```bash
+   pnpm build
+   ```
 
-### Technologies Used
+4. **Commit Changes**
+   ```bash
+   git add .
+   git cz  # Use structured commit messages
+   ```
 
-The following are the core libraries that this repo depends and built upon:
+## Tech Stack
 
-[NextJS](https://nextjs.org/) - Framework for React. It allows us to build high quality app in a more structured way
-[ShadCN](https://ui.shadcn.com/) - Beautifully-designed UI components. The library creates the UI components in your repo under `components/ui`
-[Redux Toolkit / RTK](https://redux-toolkit.js.org/) - Opinionated state management toolset. It also provide layer to make API call.
-[React Virtuoso](https://virtuoso.dev/) - Virtualized rendering so that the UI does not lag handling long list.
+**Core Technologies:**
 
-### Architecture
+- **[NextJS](https://nextjs.org/)** - React framework with built-in optimizations
+- **[ShadCN](https://ui.shadcn.com/)** - Customizable UI component library
+- **[Redux Toolkit (RTK)](https://redux-toolkit.js.org/)** - State management with API layer
+- **[React Virtuoso](https://virtuoso.dev/)** - Virtualized rendering for performance
 
-#### Technologies Used
+## Architecture
 
-`NextJS` and `RTK` are used not only they are battle-tested, it's also because they are opinionated. They offer us certain ways how things should be done (for example, NextJS routing is filesystem-based routing, similar to Sveltekit). This way things can be done in a consistent basis and new developers coming in can easily understand the structure.
+### Design Philosophy
 
-`ShadCN` provides us reusable, beautifully designed components. Since ShadCN places the UI components directly in the repo, we are free to customize them as we see fit.
+This project uses **opinionated frameworks** to ensure consistency and maintainability:
 
-`Tailwind CSS` provides us the utility classes needed that we do not need custom CSS files anymore.
+- NextJS provides filesystem-based routing and development conventions
+- RTK offers standardized state management patterns
+- ShadCN delivers customizable, high-quality components
+- Tailwind CSS eliminates the need for custom stylesheets
 
-##### Tradeoff
+**Trade-offs:**
 
-The tradeoff of a framework / opinionated libraries is the lost of flexibility as we are forced into certain paradigm. It can also feel overwhelming at first glance as they are more complex or things to learn.
+- **Pros:** Consistent patterns, faster onboarding, battle-tested solutions
+- **Cons:** Reduced flexibility, steeper learning curve, framework lock-in
 
-The problem with `ShadCN` and `Tailwind CSS` is that the UI components are "exposed" in our repo. It is also not as easy as other big UI libraries (i.e [antd](https://ant.design/)) out there that gives us a lot of useful, out of the box components.
-
-#### Project Structure
+### Project Structure
 
 It will be helpful to familiarize yourself with NextJS project structure [here](https://nextjs.org/docs/app/getting-started/project-structure). It mostly has to do with `app` and `public` folders in our current repo.
 
@@ -112,7 +129,13 @@ lib                         # Lib for ShadCN UI
 
 As shown above, `features` folder is the main place we will be writing most of our code. This repo structure is also known as feature-based structure.
 
-##### Why feature-based structure instead of type-based structure?
+The following is the architecture of how we structure the flow of code.
+
+```
+UI Components → Containers → RTK Store → Services + External APIs
+```
+
+#### Why feature-based structure instead of type-based structure?
 
 **TLDR: Colocation + Scalability**
 
@@ -120,7 +143,7 @@ If we zoom in and look at `_template` folder, it looks just like a tiny repo wit
 
 `system` is a unique module. You can look at it as `global`, `application`, `master` module as it is responsibility for application level features. Common utils, services, components should go into this module as well.
 
-##### RTK + RTK Query = State Management + API call = Proxy between UI and API / data
+#### RTK + RTK Query = State Management + API call = Proxy between UI and API / data
 
 RTK served as state management for our application is intuitive, it also provides a layer between the UI and business logic / API layer.
 
@@ -132,7 +155,7 @@ Since RTK Query provides the capability to handle asynchronous flow, we have `ap
 
 `selectors` are used in situation when you want to have the state being transformed in another structure. For example, there's a news list in states, but you want a filtered news list. You can use a `selector` and apply the filter and return filtered news list instead of storing the filtered news in the state.
 
-##### Why do we need service layer?
+#### Why do we need service layer?
 
 The service layer is responsible for business logic. We can look at `BufferService` and `WebsocketService` to illustrate the point.
 
@@ -140,19 +163,19 @@ We could have dumped all the buffering, connecting to websocket logic in API lay
 
 As you can see from the theme of the architecture, we want to have each component / service to have their own responsibility, and we piece them together to get the outcome that we want, it's like playing LEGO!
 
-##### Containers = Layer between UI and State
+#### Containers = Layer between UI and State
 
 The frontend repo always has this risk of having too many complex logics on the view layer. A container acts as the layer between UI and state, so that UI layer can do what they do best, presenting the UI.
 
 A container is like a manager that talks to external parties (i.e. state), prepare the functions necessary and pass to the components.
 
-### Potential Enhancements
+## Potential Enhancements
 
-#### Use antd, MUI, or other UI library
+### Use antd, MUI, or other UI library
 
 ShadCN does not have a lot of components. Having the ownership of UI components sound good on paper, but it's extra code for us to maintain. A battle-tested UI library can give us the velocity needed to deliver our product. ShadCN also "pollutes" our repo by placing the code at root.
 
-#### Index filteredNews
+### Index filteredNews
 
 Currently the `filteredNews` is constructured via `selector`. `selector` runs synchronously. If we have a large `allNews`, the selector's performance would suffer. One way to solve this is to index the news and store the index in the states. For example, we can store a Map, key being the assets, and an array of news' UUIDs. For example,
 
@@ -165,21 +188,26 @@ interface NewsState {
 
 We can quickly lookup the news if we index to provide faster lookup at the cost of more space/memory usage.
 
-#### Reconnect button for Websocket
+### Reconnect button for Websocket
 
 Currently there is no way to reconnect in case of Websocket connection failure. Provide user a way out is helpful
 
-#### Testing
+### Testing
 
 We can use [jest](https://jestjs.io/) for unit test and [playwright](https://playwright.dev/) for E2E testing.
 
-### AI
+## AI
 
-AI has been useful in bouncing ideas, polishing the code and docs. As I am on the free tier, the usage of powerful models are unfortunately is at the low end.
+AI tools were used for:
 
-Do note that the input/output pasted below from AI may not match the code in this repo, modifications are usually made.
+- Code review and optimization suggestions
+- Documentation improvement
+- Architecture pattern validation
+- Component design iteration
 
-#### Claude Sonnet 4
+_Note: AI-generated code snippets in this README may not exactly match the current implementation due to post-generation modifications._
+
+### Claude Sonnet 4
 
 ```
 I am writing the README, help me write a section using Markdown, something like:
@@ -484,4 +512,10 @@ Taking the image as inspiration, create the itemContent for me using ShadCN. Ple
 
 ```
 I am creating a component using ShadCN. Help me create it using the following spec. You may use dummy JSON array for the data. 1. Display news items in a list format, with each item showing: - Timestamp, in either local time or UTC - Headline - Source - Link, if provided - Associated keywords and assets, if provided - Some way of distinguishing high priority items - A button labelled "Log to Console" to log the news item object to the console 2. Real-time updates: - New items should appear immediately when received - Items should be sorted by timestamp (newest first) - (Optional) Animation to catch the users' attention when new items appear 3. Filtering: - Allow filtering by news source - Allow filtering by keywords and assets - Filters should be applied "instantly" 4. Basic styling: - Clean, readable layout - (Optional) Responsive design that works on mobile and desktop
+```
+
+```
+Help me optimize the README without changing its meaning. Also help me write an introduction that fulfills this requirement
+
+"Description of the problem and solution."
 ```
